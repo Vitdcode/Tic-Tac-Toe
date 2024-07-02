@@ -1,0 +1,132 @@
+body {
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(25, 24, 48);
+  gap: 60px;
+  align-items: center;
+  /* font-family: "Sacramento", sans-serif; */
+  font-family: "Sacramento", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.input-and-buttons-wrapper {
+  display: flex;
+  gap: 40px;
+  justify-content: center;
+}
+
+.neon-headline {
+  color: #fff;
+  text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 42px #bc13fe,
+    0 0 82px #bc13fe, 0 0 92px #bc13fe, 0 0 102px #bc13fe, 0 0 151px #bc13fe;
+}
+
+h1 {
+  text-align: center;
+  margin-top: 40px;
+  font-size: 4rem;
+  animation: pulsate 2.5s infinite alternate;
+  border: 0.1rem solid #fff;
+  border-radius: 2rem;
+  padding: 0.4em;
+  box-shadow: 0 0 0.2rem #fff, 0 0 0.2rem #fff, 0 0 2rem #bc13fe,
+    0 0 0.8rem #bc13fe, 0 0 2.8rem #bc13fe, inset 0 0 1.3rem #bc13fe;
+}
+
+@keyframes pulsate {
+  100% {
+    text-shadow: 0 0 4px #fff, 0 0 11px #fff, 0 0 19px #fff, 0 0 40px #bc13fe,
+      0 0 80px #bc13fe, 0 0 90px #bc13fe, 0 0 100px #bc13fe, 0 0 150px #bc13fe;
+  }
+
+  0% {
+    text-shadow: 0 0 2px #fff, 0 0 4px #fff, 0 0 6px #fff, 0 0 10px #bc13fe,
+      0 0 45px #bc13fe, 0 0 55px #bc13fe, 0 0 70px #bc13fe, 0 0 80px #bc13fe;
+  }
+}
+
+@media screen and (prefers-reduced-motion) {
+  h1 {
+    animation: none;
+  }
+}
+
+#gameboard {
+  display: grid;
+  grid-template-columns: repeat(3, 250px);
+  grid-template-rows: repeat(3, 250px);
+  justify-items: center;
+  align-items: center;
+}
+
+.square {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  border: 2px solid white;
+  color: white;
+  justify-content: center;
+  align-items: center;
+  font-size: 3rem;
+}
+
+#message {
+  color: white;
+  font-size: 4rem;
+}
+
+input {
+  border-radius: 10px;
+  height: 20px;
+  padding: 12px 20px;
+  border: none;
+  font-size: 2rem;
+  color: white;
+  font-family: "Sacramento", sans-serif;
+  background-color: rgb(54, 17, 65);
+  box-shadow: 0 0 0.2rem #fff, 0 0 0.2rem #fff, 0 0 2rem #661885,
+    0 0 0.8rem #661885, 0 0 2.8rem #661885, inset 0 0 1.3rem #661885;
+}
+
+#player-one-name {
+  transition: 400ms;
+}
+
+#player-one-name:hover {
+  padding: 16px 25px;
+}
+
+::-ms-input-placeholder {
+  /* Edge 12-18 */
+  color: #a855f7;
+}
+
+::placeholder {
+  color: #a855f7;
+  opacity: 1; /* Firefox */
+}
+
+button {
+  border-radius: 10px;
+  border: 1px solid #661885;
+  width: 120px;
+  font-size: 1rem;
+  background-color: rgb(110, 231, 183);
+  opacity: 0.8;
+  box-shadow: 4px 4px 5px 0px rgba(0, 0, 0, 0.75);
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: rgb(110, 231, 183, 0.9);
+}
+
+button:active {
+  background-color: rgb(110, 231, 183);
+}
