@@ -2,9 +2,8 @@ body {
   display: flex;
   flex-direction: column;
   background-color: rgb(25, 24, 48);
-  gap: 60px;
+  /*  gap: 80px; */
   align-items: center;
-  /* font-family: "Sacramento", sans-serif; */
   font-family: "Sacramento", sans-serif;
   font-weight: 400;
   font-style: normal;
@@ -19,6 +18,8 @@ body {
   display: flex;
   gap: 40px;
   justify-content: center;
+  height: 50px;
+  margin-bottom: 60px;
 }
 
 .neon-headline {
@@ -30,8 +31,9 @@ body {
 h1 {
   text-align: center;
   margin-top: 40px;
+  margin-bottom: 80px;
   font-size: 4rem;
-  animation: pulsate 2.5s infinite alternate;
+  animation: pulsate 1s infinite alternate;
   border: 0.1rem solid #fff;
   border-radius: 2rem;
   padding: 0.4em;
@@ -59,8 +61,8 @@ h1 {
 
 #gameboard {
   display: grid;
-  grid-template-columns: repeat(3, 250px);
-  grid-template-rows: repeat(3, 250px);
+  grid-template-columns: repeat(3, 230px);
+  grid-template-rows: repeat(3, 230px);
   justify-items: center;
   align-items: center;
 }
@@ -69,15 +71,25 @@ h1 {
   display: flex;
   height: 100%;
   width: 100%;
-  border: 2px solid white;
-  color: white;
+  border: 2px solid rgb(124, 58, 237, 0.7);
+  color: #ffffff;
+  text-shadow: 0 0 4px #fff, 0 0 11px #fff, 0 0 19px #fff, 0 0 40px #bc13fe,
+    0 0 80px #bc13fe, 0 0 90px #bc13fe, 0 0 100px #bc13fe, 0 0 150px #bc13fe;
+
+  box-shadow: 0 0 0.2rem #fff, 0 0 0.2rem #fff, 0 0 2rem rgb(124, 58, 237, 0.5),
+    0 0 0.8rem rgb(124, 58, 237, 0.5), 0 0 2.8rem rgb(124, 58, 237, 0.5),
+    inset 0 0 1.3rem rgb(124, 58, 237, 0.7);
   justify-content: center;
   align-items: center;
   font-size: 3rem;
 }
 
+#gameboard {
+  margin-bottom: 80px;
+}
+
 #message {
-  color: white;
+  color: #bc13fe;
   font-size: 4rem;
 }
 
@@ -85,20 +97,27 @@ input {
   border-radius: 10px;
   height: 20px;
   padding: 12px 20px;
-  border: none;
+  border: 1px solid rgb(138, 53, 163);
   font-size: 2rem;
-  color: white;
+  color: #a855f7;
   font-family: "Sacramento", sans-serif;
-  background-color: rgb(54, 17, 65);
+  background-color: rgb(66, 22, 80);
   box-shadow: 0 0 0.2rem #fff, 0 0 0.2rem #fff, 0 0 2rem #661885,
     0 0 0.8rem #661885, 0 0 2.8rem #661885, inset 0 0 1.3rem #661885;
 }
 
-#player-one-name {
-  transition: 400ms;
+#player-one-name,
+#player-two-name {
+  transition: 300ms;
 }
 
-#player-one-name:hover {
+#player-one-name:hover,
+#player-two-name:hover {
+  padding: 16px 25px;
+}
+
+#player-one-name:focus,
+#player-two-name:focus {
   padding: 16px 25px;
 }
 
@@ -113,20 +132,25 @@ input {
 }
 
 button {
+  font-family: "Sacramento", sans-serif;
+  font-size: 2rem;
   border-radius: 10px;
-  border: 1px solid #661885;
-  width: 120px;
-  font-size: 1rem;
-  background-color: rgb(110, 231, 183);
-  opacity: 0.8;
-  box-shadow: 4px 4px 5px 0px rgba(0, 0, 0, 0.75);
+  color: #a855f7;
+  border: 2px solid #661885;
+  min-width: 170px;
+  background-color: rgb(66, 22, 80);
+
+  box-shadow: 0 0 0.2rem #fff, 0 0 0.2rem #fff, 0 0 2rem #661885,
+    0 0 0.8rem #661885, 0 0 2.8rem #661885, inset 0 0 1.3rem #661885;
   cursor: pointer;
 }
 
 button:hover {
-  background-color: rgb(110, 231, 183, 0.9);
+  animation: pulsate 1s infinite alternate;
+  color: #5e03b4;
+  font-weight: bold;
 }
 
 button:active {
-  background-color: rgb(110, 231, 183);
+  background-color: rgb(198, 17, 253);
 }
