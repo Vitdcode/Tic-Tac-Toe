@@ -1,69 +1,67 @@
-const playerOneName = document.querySelector("#player-one-name");
-const playerTwoName = document.querySelector("#player-two-name");
+const gameBoardDivContainer = document.querySelector("#gameboard");
+const squares = document.querySelectorAll(".square");
 const winnerText = document.querySelector("#message");
 
-let gameOver = false;
+let gameStarted = false;
+let gameIsFinished = false;
 
 const Gameboard = (() => {
   let gameBoard = ["", "", "", "", "", "", "", "", ""];
 
-  let render = () => {
-    renderHTML = "";
-    gameBoard.forEach((square, index) => {
-      renderHTML += `<div class='square' id=${index}>${square}</div>`;
-    });
-    document.querySelector("#gameboard").innerHTML = renderHTML;
-  };
-
-  let update = (index, marker) => {
-    if (gameBoard[index] !== "") {
-      return;
-    } else if (gameOver === false) {
-      gameBoard[index] = marker;
-      render();
-      Game.squareClick();
-    }
-  };
-
   const getGameBoard = () => gameBoard;
+  const emptyGameboard = () => gameBoard = ["", "", "", "", "", "", "", "", ""]; // prettier-ignore
 
-  const emptyGameboard = () => (gameBoard = ["", "", "", "", "", "", "", "", ""]); //prettier-ignore
-
-  return { render, update, emptyGameboard, getGameBoard };
-})();
-
-const createPlayer = (name, marker) => {
-  return { name, marker };
-};
-
-const Game = (() => {
-  let players = [];
-  let currentPlayer;
-
-  let start = () => {
-    players = [
-      createPlayer(playerOneName.value, "X"),
-      createPlayer(playerTwoName.value, "O"),
-    ];
-    currentPlayer = 0;
-    Gameboard.render();
-    squareClick();
-  };
-
-  function checkForTie(board) {
-    let tie = true;
-    for (let i = 0; i < board.length; i++) {
-      if (board[i] === "") {
-        tie = false;
-        break;
+  function render() {
+    gameBoard.forEach((square, index) => {
+      if (gameStarted == true) {
+        return;
       }
-    }
-    if (tie) {
-      return (winnerText.textContent = "It is a tie");
+      const squareDiv = document.createElement("div");
+      squareDiv.classList.add("square");
+      squareDiv.id = index;
+      squareDiv.textContent = square;
+      gameBoardDivContainer.appendChild(squareDiv);
+      squareDiv.addEventListener("click", handleSquareClick);
+    });
+  }
+
+  function handleSquareClick(event) {
+    const squareId = event.target.id;
+
+    if (gameIsFinished) {
+      return;
+    } else if (!event.target.textContent == "") {
+      return;
+    } else {
+      event.target.textContent = Game.currentPlayerMarker();
+      gameBoard[squareId] = event.target.textContent;
+      Game.winnerCheck(getGameBoard());
+      Game.switchPlayer();
     }
   }
 
-  function checkForWin(board) {
+  return { render, emptyGameboard, getGameBoard };
+})();
+
+const Game = (() => {
+  const startGameButton = document.querySelector("#start-game-button");
+  startGameButton.addEventListener("click", () => {
+    Game.start();
+  });
+
+  const restartButton = document.querySelector("#restart-game-button");
+  restartButton.addEventListener("click", () => {
+    gameBoardDivContainer.innerHTML = "";
+    gameIsFinished = false;
+    gameStarted = false;
+    Gameboard.emptyGameboard();
+    Gameboard.render();
+    gameStarted = true;
+    winnerText.textContent = "";
+    switchPlayer();
+  });
+
+  function winnerCheck(board) {
     const winningCombinations = [
       [0, 1, 2],
       [3, 4, 5],
@@ -75,55 +73,56 @@ const Game = (() => {
       [2, 4, 6],
     ];
 
-    for (let i = 0; i < winningCombinations.length; i++) {
-      const [a, b, c] = winningCombinations[i];
+    for (combo of winningCombinations) {
+      const [a, b, c] = combo;
 
-      if (board[a] && board[a] === board[b] && board[a] === board[c]) {
-        gameOver = true;
-        return (winnerText.textContent = `${players[currentPlayer].name} won!`);
+      if (
+        board[a] == currentPlayerMarker() &&
+        board[b] == currentPlayerMarker() &&
+        board[c] == currentPlayerMarker()
+      ) {
+        winnerText.textContent = currentPlayerName() + " won the game";
+        gameIsFinished = true;
       }
     }
   }
 
-  const squareClick = () => {
-    const squares = document.querySelectorAll(".square");
-    if (gameOver) {
-      return;
-    } else if (gameOver === false) {
-      squares.forEach((square) => {
-        square.addEventListener("click", squareClickEvent);
-      });
-    }
-  };
+  let players = [];
+  let playerIndex = 0;
 
-  const squareClickEvent = (event) => {
-    let index = parseInt(event.target.id);
-    Gameboard.update(index, players[currentPlayer].marker);
-
-    checkForWin(Gameboard.getGameBoard());
-    checkForTie(Gameboard.getGameBoard());
-
-    currentPlayer = currentPlayer === 0 ? 1 : 0;
-  };
-
-  return { start, squareClick };
-})();
-
-const startButton = document.querySelector("#start-game-button");
-startButton.addEventListener("click", () => {
-  if (playerOneName.value === "") {
-    return alert("Enter Player 1 Name");
-  } else if (playerTwoName.value === "") {
-    return alert("Enter Player 2 Name");
+  function createPlayer(name, marker) {
+    return { name, marker };
   }
-  Game.start();
-});
 
-const restartButton = document.querySelector("#restart-game-button");
-restartButton.addEventListener("click", () => {
-  gameOver = false;
-  Gameboard.emptyGameboard();
-  Gameboard.render();
-  winnerText.textContent = "";
-  Game.start();
-});
+  function currentPlayerMarker() {
+    return players[playerIndex].marker;
+  }
+
+  function currentPlayerName() {
+    return players[playerIndex].name;
+  }
+
+  function switchPlayer() {
+    return (playerIndex = playerIndex === 0 ? 1 : 0);
+  }
+
+  function start() {
+    const playerOne = document.querySelector("#player-one-name");
+    const playerTwo = document.querySelector("#player-two-name");
+    players = [
+      createPlayer(playerOne.value, "X"),
+      createPlayer(playerTwo.value, "O"),
+    ];
+
+    Gameboard.render();
+    gameStarted = true;
+  }
+
+  return {
+    start,
+    createPlayer,
+    currentPlayerMarker,
+    switchPlayer,
+    winnerCheck,
+  };
+})();
